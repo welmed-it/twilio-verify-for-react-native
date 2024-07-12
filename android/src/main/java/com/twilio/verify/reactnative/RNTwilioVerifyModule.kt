@@ -94,7 +94,13 @@ class RNTwilioVerifyModule(
             updateFactorPayload.getStringValue("sid"),
             updateFactorPayload.getOptStringValue("pushToken")
           ), { promise.resolve(toReadableMap(it)) }, { promise.reject(it) })
-      else -> promise.reject(IllegalArgumentException("Invalid update factor payload"))
+
+      null -> {
+        promise.reject(Throwable("Factor type is null"))
+      }
+      else -> {
+        promise.reject(Throwable("Unsupported factor type"))
+      }
     }
   }
 
@@ -147,7 +153,12 @@ class RNTwilioVerifyModule(
             { promise.resolve(null) },
             { exception -> promise.reject(exception) })
         }
-      else -> promise.reject(IllegalArgumentException("Invalid update challenge payload"))
+      null -> {
+        promise.reject(Throwable("Factor type is null"))
+      }
+      else -> {
+        promise.reject(Throwable("Unsupported factor type"))
+      }
     }
   }
 
